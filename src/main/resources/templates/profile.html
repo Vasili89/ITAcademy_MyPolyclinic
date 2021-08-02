@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+<a href="/polyclinic">Home Page</a>
+<a href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+
+    <div th:replace="/includes/header"></div>
+    <div th:replace="/includes/nav"></div>
+
+    <div class="text" th:if="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).ADMIN}">
+        <h2> Admin: [[${currentUserPassport.getFullName}]]</h2>
+    </div>
+
+    <div class="text" th:if="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">
+        <h2> Doctor: [[${currentUserPassport.getFullName}]]</h2>
+    </div>
+
+    <div class="text" th:if="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).PATIENT}">
+        <h2> Patient: [[${currentUserPassport.getFullName}]]</h2>
+    </div>
+
+    <form th:method="POST" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+    <hr>
+    <br/>
+    <p th:text="${currentUserPassport.getUser().toString()}"></p>
+    <br/>
+    <p th:text="${currentUserPassport.toString()}"></p>
+    <br/>
+    <hr>
+    <br/>
+    <div th:unless="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).PATIENT}">
+        <p>Enter user's phone number: </p>
+        <form th:method="POST" th:action="@{/finduser}">
+            <input type="text" th:value="${phoneNumberForFindUser}" name="phoneNumberForFindUser"/>
+            <input type="submit" value="find user"/>
+        </form>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

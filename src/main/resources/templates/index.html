@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+    <a th:if="${currentUserPassport == null}" href="/polyclinic/login">Sign In</a>
+    <a th:if="${currentUserPassport == null}" href="/polyclinic/registration">Registration</a>
+    <a th:if="${currentUserPassport != null}" href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="tittle-block">
+            <h1>MyPolyclinic</h1>
+        </div>
+        <div class="label-picture">
+            <img th:src="@{/images/logo.jpg}"/>
+        </div>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="/polyclinic/covid">COVID-19 in World</a></li>
+            <li><a href="http://www.minzdrav.gov.by/" target="_blank">Health in Belarus</a></li>
+            <li><a href="https://www.who.int/home" target="_blank">World Health Organization</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <h3>Coronavirus disease (COVID-19) advice for the public</h3>
+            <p align="justify">The global number of new cases reported last week (19-25 July 2021)
+                was over 3.8 million, an 8% increase as compared to the previous week. An average
+                of around 540 000 cases were reported each day over the past week as compared to
+                490 000 cases reported daily the week before. This increasing trend is largely
+                attributed to substantial increases in the Region of the Americas and the Western
+                Pacific Region. The number of deaths reported this week increased sharply with over
+                69 000 deaths, a 21% increase when compared to the previous week. The cumulative
+                number of cases and deaths reported globally is almost 194 million and over 4
+                million respectively. If these trends continue, it is expected that the cumulative
+                number of cases reported globally could exceed 200 million in the next two weeks.
+            </p>
+        </div>
+        <div class="sidebar">
+            <h3>TIMETABLE:</h3>
+            <ul class="timetable">
+                <li>I    8:00 - 20:00</li>
+                <li>II   8:00 - 20:00</li>
+                <li>III  8:00 - 20:00</li>
+                <li>IV   8:00 - 20:00</li>
+                <li>V    8:00 - 20:00</li>
+                <li>VI   9:00 - 15:00</li>
+                <li>VII  Day off</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

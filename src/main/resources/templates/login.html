@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <div th:insert="/includes/head::head"></div>
+
+<body>
+
+  <div class="top" >
+    <a href="/polyclinic">Home Page</a>
+    <a href="/polyclinic/registration">Registration</a>
+  </div>
+
+  <div class="container">
+    <div th:replace="/includes/header"></div>
+
+    <div th:replace="/includes/nav"></div>
+
+    <div class="signin-content">
+
+      <div class="signin-container">
+
+          <form class="form-signin" method="POST" action="/polyclinic/login">
+
+            <h2 class="form-signin-heading" style="text-align:center">MyPolyclinic Sign In</h2>
+
+            <div style="clear:both; padding:10px; text-align:right">
+              <label for="username" style="float:left">Phone Number:</label>
+              <input size="25" type="tel" id="username" name="username" required>
+            </div>
+
+            <div style="clear:both; padding:10px; text-align:right">
+              <label for="password" style="float:left">Password:</label>
+              <input size="25" type="password" id="password" name="password" required>
+            </div>
+
+            <div>
+              <button class="signin-button" type="submit">Sign in</button>
+            </div>
+
+          </form>
+
+      </div>
+
+      <div>
+        <h5 style="text-align:center"> Sign In With Google: <a href="/polyclinic/oauth2/authorization/google">click here</a></h5>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

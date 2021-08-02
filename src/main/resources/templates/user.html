@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+    <div th:insert="/includes/head::head"></div>
+
+<body>
+  <p th:text="${findUser.toString()}">VALUE</p>
+  <br>
+  <p th:text="${findUserPassport.toString()}">VALUE</p>
+  <br>
+  <hr>
+
+  <form th:method="GET" th:action="@{/user/{id}(id=${findUser.getId()})}">
+      <input type="submit" value="Edit user"/>
+  </form>
+
+  <form th:method="GET" th:action="@{/user/{id}/passport(id=${findUser.getId()})}">
+      <input type="submit" value="Edit passport"/>
+  </form>
+
+  <div th:if="${currentUser.getRole == T(by.kostopravov.polyclinic.dto.enums.Role).ADMIN}">
+        <form th:method="POST" th:action="@{/user/{id}(id=${findUser.getId()})}">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Delete user"/>
+        </form>
+  </div>
+
+  <div th:if="${currentUser.getRole == T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">
+      <form th:method="GET" th:action="@{/user/{id}/card(id=${findUser.getId()})}">
+          <input type="submit" value="View medical card"/>
+      </form>
+  </div>
+
+  <form th:method="POST" th:action="@{/logout}">
+      <input type="submit" value="Logout"/>
+  </form>
+</body>
+</html>

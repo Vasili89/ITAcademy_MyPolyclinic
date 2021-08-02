@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+  <div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+   <a href="/polyclinic">Home Page</a>
+   <a th:if="${currentUserPassport == null}" href="/polyclinic/login">Sign In</a>
+   <a th:if="${currentUserPassport != null}" href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+  <div th:replace="/includes/header"></div>
+
+  <div th:replace="/includes/nav"></div>
+
+ <div class="registration-content">
+
+  <div class="user-inf-add">
+
+   <h2> New user registration </h2>
+
+   <div style="clear:both; padding:8px; text-align:right">
+    <label for="phoneNumber" style="float:left">Phone Number: </label>
+    <input type="tel" id="phoneNumber"  required/>
+   </div>
+
+   <div style="clear:both; padding:8px; text-align:right">
+    <label for="password" style="float:left">Password: </label>
+    <input type="password" id="password"  required/>
+   </div>
+  </div>
+
+  <div class="passport-address">
+
+   <div class="passport-add">
+     <h2 style="text-align:center">Passport:</h2>
+
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="idNumber" style="float:left">ID number: </label>
+     <input type="text" id="idNumber" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="firstName" style="float:left">First Name: </label>
+     <input type="text" id="firstName" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="lastName" style="float:left">Last Name: </label>
+     <input type="text" id="lastName" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="fathersName" style="float:left">Father's Name: </label>
+     <input type="text" id="fathersName" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="number" style="float:left">Number: </label>
+     <input type="text" id="number" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="dateOfBirth" style="float:left">Date of Birth: </label>
+     <input type="date" id="dateOfBirth" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="dateOfIssue" style="float:left">Date of Issue: </label>
+     <input type="date" id="dateOfIssue" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="authority" style="float:left">Authority: </label>
+     <input type="text" id="authority" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+    <label for="gender" style="float:left">Sex: </label>
+     <select name="gender">
+       <option th:each="gender : ${T(by.kostopravov.polyclinic.dto.enums.Gender).values()}" th:value="${gender}" th:text="${gender}" id="gender"></option>
+     </select>
+    </div>
+   </div>
+
+   <div style="width:10%"></div>
+
+   <div class="address-add">
+    <h2 style="text-align:center">Address:</h2>
+
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="city" style="float:left">City: </label>
+     <input type="text" id="city" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="street" style="float:left">Street: </label>
+     <input type="text" id="street" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="house" style="float:left">House: </label>
+     <input type="text" id="house" required/>
+    </div>
+    <div style="clear:both; padding:8px; text-align:right">
+     <label for="flat" style="float:left">Flat: </label>
+     <input type="text" id="flat"/>
+    </div>
+   </div>
+
+  </div>
+  <div class="reg-button">
+    <button style="width:100px" type="button" onclick="sendUser()"> Create </button>
+ </div>
+ </div>
+</div>
+
+</body>
+</html>

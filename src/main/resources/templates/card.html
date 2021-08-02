@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Edit user</title>
+</head>
+<body>
+Medical card for user with id: <p th:text="${medicalCard.getOwner().getId()}"></p>
+<br/>
+<br/>
+<form th:method="POST" th:action="@{/user/card}" th:object="${newDiagnosis}">
+        <p><b>Enter diagnosis:</b></p>
+        <input type="hidden" th:field="*{id}" id="id"/>
+        <input type="hidden" th:field="*{dateTime}" id="dateTime"/>
+        <input type="hidden" th:field="*{doctor}" value="${doctor}" id="doctor"/>
+        <label for="name">Diagnosis name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <br>
+        <label for="description">Diagnosis description: </label>
+        <input type="text" th:field="*{description}" id="description"/>
+        <br>
+  <input type="submit" value="Add"/>
+</form>
+<br/>
+<hr>
+<table border="1">
+    <tr>
+        <th>Doctor</th>
+        <th>Diagnosis</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="diagnosis : ${medicalCard.getDiagnosis()}">
+        <td th:text="${diagnosis.doctor}"></td>
+        <td th:text="${diagnosis.name}"></td>
+        <td th:text="${diagnosis.description}"></td>
+    </tr>
+</table>
+<form th:method="POST" th:action="@{/logout}">
+  <input type="submit" value="Logout"/>
+</form>
+
+</body>
+</html>

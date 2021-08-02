@@ -1,0 +1,34 @@
+.registration-content {
+    width: 100%;
+    margin: 0 auto;
+    padding: 5px;
+    justify-content: center;
+    }
+
+.user-inf-add {
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    }
+
+.passport-address {
+    width: 80%;
+    margin: 0 auto;
+    justify-content: center;
+    display: flex;
+    }
+
+.passport-add {
+    width: 40%;
+    }
+
+.address-add {
+    width: 40%;
+    }
+
+.reg-button {
+    padding: 8px;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    }

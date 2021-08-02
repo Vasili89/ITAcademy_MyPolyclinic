@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Edit user</title>
+</head>
+<body>
+Edit passport for user: <p th:text="${passportForEdit.getFirstName}"></p>
+  <p th:text="${passportForEdit.getLastName}"></p>
+<br/>
+<br/>
+<form th:method="POST" th:action="@{/user/passport}" th:object="${passportForEdit}">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" th:field="*{user}" id="user"/>
+    <input type="hidden" th:field="*{gender}" id="gender"/>
+    <label for="idNumber">ID number: </label>
+    <input type="text" th:field="*{idNumber}" id="idNumber"/>
+    <div style="color:red" th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}">idNumber Error</div>
+    <br/>
+    <label for="firstName">First Name: </label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName Error</div>
+    <br/>
+    <label for="lastName">Last Name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastName Error</div>
+    <br/>
+    <label for="fathersName">Father's Name: </label>
+    <input type="text" th:field="*{fathersName}" id="fathersName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fathersName')}" th:errors="*{fathersName}">fathersName Error</div>
+    <br/>
+    <label for="number">Number: </label>
+    <input type="text" th:field="*{number}" id="number"/>
+    <div style="color:red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">number Error</div>
+    <br/>
+    <label for="dateOfBirth">Date of Birth: </label>
+    <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth"/>
+    <div style="color:red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">dateOfBirth Error</div>
+    <br/>
+    <label for="dateOfIssue">Date of Issue: </label>
+    <input type="date" th:field="*{dateOfIssue}" id="dateOfIssue"/>
+    <div style="color:red" th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{dateOfIssue}">dateOfIssue Error</div>
+    <br/>
+    <label for="authority">Authority: </label>
+    <input type="text" th:field="*{authority}" id="authority"/>
+    <div style="color:red" th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}">authority Error</div>
+    <br/>
+  <input type="submit" value="OK"/>
+</form>
+<br/>
+<form th:method="POST" th:action="@{/logout}">
+  <input type="submit" value="Logout"/>
+</form>
+
+</body>
+</html>
