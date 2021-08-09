@@ -2,8 +2,8 @@ package by.kostopravov.polyclinic.controller;
 
 import by.kostopravov.polyclinic.dto.Passport;
 import by.kostopravov.polyclinic.dto.User;
-import by.kostopravov.polyclinic.sirvice.AppService;
-import by.kostopravov.polyclinic.sirvice.PolyclinicDepartmentService;
+import by.kostopravov.polyclinic.service.AppService;
+import by.kostopravov.polyclinic.service.PolyclinicDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

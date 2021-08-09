@@ -2,10 +2,10 @@ package by.kostopravov.polyclinic.controller;
 
 import by.kostopravov.polyclinic.dto.*;
 import by.kostopravov.polyclinic.dto.enums.Role;
-import by.kostopravov.polyclinic.sirvice.AddressService;
-import by.kostopravov.polyclinic.sirvice.AppService;
-import by.kostopravov.polyclinic.sirvice.DiagnosisService;
-import by.kostopravov.polyclinic.sirvice.PolyclinicDepartmentService;
+import by.kostopravov.polyclinic.service.AddressService;
+import by.kostopravov.polyclinic.service.AppService;
+import by.kostopravov.polyclinic.service.DiagnosisService;
+import by.kostopravov.polyclinic.service.PolyclinicDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

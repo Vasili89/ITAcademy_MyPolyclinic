@@ -4,7 +4,7 @@ import by.kostopravov.polyclinic.dto.Passport;
 import by.kostopravov.polyclinic.dto.User;
 import by.kostopravov.polyclinic.dto.enums.Role;
 import by.kostopravov.polyclinic.security.UserDetailsServiceImpl;
-import by.kostopravov.polyclinic.sirvice.AppService;
+import by.kostopravov.polyclinic.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

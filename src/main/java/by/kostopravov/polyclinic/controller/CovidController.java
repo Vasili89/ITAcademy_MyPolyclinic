@@ -2,8 +2,8 @@ package by.kostopravov.polyclinic.controller;
 
 import by.kostopravov.polyclinic.dto.Passport;
 import by.kostopravov.polyclinic.dto.covidModel.Location;
-import by.kostopravov.polyclinic.sirvice.AppService;
-import by.kostopravov.polyclinic.sirvice.covidDataService.CovidDataService;
+import by.kostopravov.polyclinic.service.AppService;
+import by.kostopravov.polyclinic.service.covidDataService.CovidDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

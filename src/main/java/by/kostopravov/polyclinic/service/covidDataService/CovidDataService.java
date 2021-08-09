@@ -1,4 +1,4 @@
-package by.kostopravov.polyclinic.sirvice.covidDataService;
+package by.kostopravov.polyclinic.service.covidDataService;
 
 import by.kostopravov.polyclinic.dto.covidModel.Location;
 import org.springframework.scheduling.annotation.Scheduled;

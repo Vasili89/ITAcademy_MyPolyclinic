@@ -1,4 +1,4 @@
-package by.kostopravov.polyclinic.sirvice;
+package by.kostopravov.polyclinic.service;
 
 import by.kostopravov.polyclinic.repository.IMedicalCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
