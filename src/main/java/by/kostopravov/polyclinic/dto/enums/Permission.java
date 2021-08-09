@@ -3,7 +3,8 @@ package by.kostopravov.polyclinic.dto.enums;
 public enum Permission {
     READ("read"),
     WRITE("write"),
-    DELETE("delete");
+    BROWSE("browse"),
+    EDIT("edit");
 
     private final String permission;
 

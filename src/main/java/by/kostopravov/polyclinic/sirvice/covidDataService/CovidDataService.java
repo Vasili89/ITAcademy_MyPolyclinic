@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -37,20 +38,24 @@ public class CovidDataService {
         HttpRequest request = HttpRequest.newBuilder().
                 uri(URI.create(COVID_DATASOURCE_URL)).
                 build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        StringReader csvReader = new StringReader(response.body());
-        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
-        for (CSVRecord record : records) {
-            Location location = new Location();
-            location.setState(record.get("Province/State"));
-            location.setCountry(record.get("Country/Region"));
-            int lastDayCases = Integer.parseInt(record.get(record.size() - 1));
-            int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
-            location.setLastTotalCases(lastDayCases);
-            location.setDelta(lastDayCases - prevDayCases);
-            newData.add(location);
+            StringReader csvReader = new StringReader(response.body());
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
+            for (CSVRecord record : records) {
+                Location location = new Location();
+                location.setState(record.get("Province/State"));
+                location.setCountry(record.get("Country/Region"));
+                int lastDayCases = Integer.parseInt(record.get(record.size() - 1));
+                int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+                location.setLastTotalCases(lastDayCases);
+                location.setDelta(lastDayCases - prevDayCases);
+                newData.add(location);
+            }
+            this.virusData = newData;
+        } catch (ConnectException e) {
+            e.printStackTrace();
         }
-        this.virusData = newData;
     }
 }

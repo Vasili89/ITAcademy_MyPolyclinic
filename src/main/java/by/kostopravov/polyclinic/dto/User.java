@@ -9,9 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "polyclinic")
@@ -22,11 +20,11 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Phone Number is empty")
-    @Column(name = "phone_number")
+    @NotEmpty
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @NotEmpty(message = "Password is empty")
+    @NotEmpty
     @Column(name = "password")
     private String password;
 
@@ -38,8 +36,10 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "google_email")
+    private String googleEmail;
+
     @Column(name = "created_at")
-    @JsonIgnore
     private LocalDate createdAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,6 +51,10 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private MedicalCard medicalCard;
+
+    @ManyToOne
+    @JoinColumn(name = "polyclinic_department_id")
+    private PolyclinicDepartment polyclinicDepartment;
 
     public User() {
     }
@@ -64,6 +68,8 @@ public class User implements Serializable {
         this.medicalCard = new MedicalCard();
         this.medicalCard.setOwner(this);
         this.addresses = new ArrayList<>();
+        this.googleEmail = "";
+        this.polyclinicDepartment = null;
     }
 
     public Long getId() {
@@ -128,6 +134,22 @@ public class User implements Serializable {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public String getGoogleEmail() {
+        return googleEmail;
+    }
+
+    public void setGoogleEmail(String googleEmail) {
+        this.googleEmail = googleEmail;
+    }
+
+    public PolyclinicDepartment getPolyclinicDepartment() {
+        return polyclinicDepartment;
+    }
+
+    public void setPolyclinicDepartment(PolyclinicDepartment polyclinicDepartment) {
+        this.polyclinicDepartment = polyclinicDepartment;
     }
 
     @Override

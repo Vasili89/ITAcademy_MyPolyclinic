@@ -30,7 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/covid").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/demo.js").permitAll()
                 .antMatchers("/js/*").permitAll()
                 .antMatchers("/css/*").permitAll()
                 .antMatchers("/images/*").permitAll()
@@ -47,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/")
-                .and().oauth2Login()
+                .and()
+                .oauth2Login()
                 .loginPage("/login")
                 .defaultSuccessUrl("/oauth2")
                 .failureUrl("/login");

@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
-<head>
-  <meta charset="UTF-8">
-  <title>Edit user</title>
-</head>
-<body>
-Medical card for user with id: <p th:text="${medicalCard.getOwner().getId()}"></p>
-<br/>
-<br/>
-<form th:method="POST" th:action="@{/user/card}" th:object="${newDiagnosis}">
-        <p><b>Enter diagnosis:</b></p>
-        <input type="hidden" th:field="*{id}" id="id"/>
-        <input type="hidden" th:field="*{dateTime}" id="dateTime"/>
-        <input type="hidden" th:field="*{doctor}" value="${doctor}" id="doctor"/>
-        <label for="name">Diagnosis name: </label>
-        <input type="text" th:field="*{name}" id="name"/>
-        <br>
-        <label for="description">Diagnosis description: </label>
-        <input type="text" th:field="*{description}" id="description"/>
-        <br>
-  <input type="submit" value="Add"/>
-</form>
-<br/>
-<hr>
-<table border="1">
-    <tr>
-        <th>Doctor</th>
-        <th>Diagnosis</th>
-        <th>Description</th>
-    </tr>
-    <tr th:each="diagnosis : ${medicalCard.getDiagnosis()}">
-        <td th:text="${diagnosis.doctor}"></td>
-        <td th:text="${diagnosis.name}"></td>
-        <td th:text="${diagnosis.description}"></td>
-    </tr>
-</table>
-<form th:method="POST" th:action="@{/logout}">
-  <input type="submit" value="Logout"/>
-</form>
 
+    <div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+    <a href="/polyclinic">Home Page</a>
+    <a href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+
+    <div th:replace="/includes/header"></div>
+    <div th:replace="/includes/nav"></div>
+
+    <br/>
+
+    <h2><a th:href="@{/user/{id}(id=${medicalCard.getOwner().getId()})}"> [[${medicalCard.getOwner().getPhoneNumber()}]]
+    </a> medical card: </h2>
+
+    <div class="new-diagnosis-block" th:if="${currentUserPassport.getUser().getRole ==
+                T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">
+        <button style="width:100px; padding:5px 10px" id="button-add-diagnosis" type="button"> Add new diagnosis </button>
+        <form id="diagnosis-form" name="diagnosis-form" style="display:none">
+            <hr>
+            <label for="diagnosis-name" style="padding:5px 10px">Diagnosis name: </label>
+            <br>
+            <input type="text" id="diagnosis-name" style="padding:5px 10px"/>
+            <br>
+            <label for="diagnosis-description" style="padding:5px 10px">Diagnosis description: </label>
+            <br>
+            <textarea id="diagnosis-description" rows="5" cols="70" style="resize:none; padding:5px 10px"></textarea>
+            <br>
+            <button style="width:100px; padding:5px 10px" id="button-new-diagnosis" type="button"> Add </button>
+        </form>
+    </div>
+
+<hr>
+
+    <div class="all-diagnosis" th:each="i : ${#numbers.sequence(medicalCard.getDiagnosis().size() - 1, 0, -1)}"
+         th:with="diagnosis=${medicalCard.getDiagnosis()[i]}">
+        <div class="diagnosis">
+            <p>Polyclinic department: [[${diagnosis.doctor.polyclinicDepartment.name}]]</p>
+            <p>Date: [[${diagnosis.dateTime}]]</p>
+            <p>Diagnosis: [[${diagnosis.name}]] </p>
+            <p>Description: [[${diagnosis.description}]]</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var patientId = [[${medicalCard.owner.id}]];
+    var doctorId = [[${currentUserPassport.user.id}]];
+</script>
+    <script type="text/javascript" th:src="@{/js/diagnosis.js}"></script>
 </body>
 </html>

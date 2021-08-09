@@ -1,10 +1,12 @@
 package by.kostopravov.polyclinic.controller;
 
-import by.kostopravov.polyclinic.dto.Diagnosis;
 import by.kostopravov.polyclinic.dto.MedicalCard;
 import by.kostopravov.polyclinic.dto.Passport;
+import by.kostopravov.polyclinic.dto.PolyclinicDepartment;
 import by.kostopravov.polyclinic.dto.User;
+import by.kostopravov.polyclinic.dto.enums.Role;
 import by.kostopravov.polyclinic.sirvice.AppService;
+import by.kostopravov.polyclinic.sirvice.PolyclinicDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,16 +15,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 
 @Controller
 @RequestMapping
 public class AppController {
 
     private AppService appService;
+    private PolyclinicDepartmentService departmentService;
 
     @Autowired
-    public AppController(AppService appService) {
+    public AppController(AppService appService, PolyclinicDepartmentService departmentService) {
         this.appService = appService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping
@@ -30,6 +36,13 @@ public class AppController {
         Passport currentUserPassport = appService.checkCurrentUser(authUser);
         model.addAttribute("currentUserPassport", currentUserPassport);
         return "index";
+    }
+
+    @GetMapping("/registration")
+    public String registrationPage(@AuthenticationPrincipal UserDetails authUser, Model model) {
+        Passport currentUserPassport = appService.checkCurrentUser(authUser);
+        model.addAttribute("currentUserPassport", currentUserPassport);
+        return "registration";
     }
 
     @GetMapping("/login")
@@ -42,64 +55,57 @@ public class AppController {
         return "login";
     }
 
-    @GetMapping("/registration")
-    public String registrationPage(@AuthenticationPrincipal UserDetails authUser, Model model) {
-        Passport currentUserPassport = appService.checkCurrentUser(authUser);
-        model.addAttribute("currentUserPassport", currentUserPassport);
-        return "registration";
-    }
-
+    @PreAuthorize("hasAuthority('read')")
     @GetMapping("/profile")
     public String userPage(Model model, @AuthenticationPrincipal UserDetails authUser) {
         User currentUser = appService.findUser(authUser.getUsername());
         Passport currentUserPassport = appService.findPassportByUser(currentUser);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("currentUserPassport", currentUserPassport);
+        if (currentUser.getRole() == Role.ADMIN) {
+            ArrayList<PolyclinicDepartment> departments = departmentService.getAllDepartments();
+            model.addAttribute("departments", departments);
+            return "admin";
+        }
         return "profile";
     }
 
-    @PreAuthorize("hasAuthority('write')")
-    @GetMapping("/user/{id}")
-    public String getPageForEditUserAccount(@PathVariable Long id, Model model) {
-        User userForEdit = appService.findUserById(id);
-        model.addAttribute("userForEdit", userForEdit);
-        return "edituser";
-    }
-
-    @PreAuthorize("hasAuthority('write')")
-    @GetMapping("/user/{id}/passport")
-    public String getPageForEditUserPassport(@PathVariable Long id, Model model) {
-        User user = appService.findUserById(id);
-        Passport passport = appService.findPassportByUser(user);
-        model.addAttribute("passportForEdit", passport);
-        return "editpassport";
-    }
-
-    @PreAuthorize("hasAuthority('write')")
+    @PreAuthorize("hasAuthority('browse')")
     @GetMapping("/user/{id}/card")
-    public String getPageForCreateDiagnosis(@PathVariable Long id, Model model,
-                                            @AuthenticationPrincipal UserDetails authUser) {
+    public String getMedicalCardPage(@PathVariable Long id, Model model,
+                                     @AuthenticationPrincipal UserDetails authUser) {
         User user = appService.findUserById(id);
         User currentUser = appService.findUser(authUser.getUsername());
+        Passport currentUserPassport = appService.findPassportByUser(currentUser);
         MedicalCard medicalCard = appService.findMedicalCardByUser(user);
         model.addAttribute("medicalCard", medicalCard);
-        model.addAttribute("newDiagnosis", new Diagnosis());
-        model.addAttribute("doctor", currentUser);
+        model.addAttribute("currentUserPassport", currentUserPassport);
         return "card";
     }
 
-    @PreAuthorize("hasAuthority('write')")
-    @PostMapping("/finduser")
-    public String getPageWithUserInformation(Model model,
-                            @RequestParam String phoneNumberForFindUser,
-                            @AuthenticationPrincipal UserDetails authUser) {
-        User findUser = appService.findUser(phoneNumberForFindUser);
-        Passport findUserPassport = appService.findPassportByUser(findUser);
-        User currentUser = appService.findUser(authUser.getUsername());
-        model.addAttribute("findUser", findUser);
-        model.addAttribute("findUserPassport", findUserPassport);
-        model.addAttribute("currentUser", currentUser);
+
+    @PreAuthorize("hasAuthority('browse')")
+    @GetMapping("/user/{id}")
+    public String getUser(@PathVariable Long id, Model model,
+                          @AuthenticationPrincipal UserDetails authUser) {
+        User user = appService.findUserById(id);
+        Passport passport = appService.findPassportByUser(user);
+        Passport currentUserPassport = appService.checkCurrentUser(authUser);
+        model.addAttribute("currentUserPassport", currentUserPassport);
+        model.addAttribute("user", user);
+        model.addAttribute("userPassport", passport);
         return "user";
+    }
+
+    @PreAuthorize("hasAuthority('read')")
+    @GetMapping("/profile/card")
+    public String getMyMedicalCardPage(Model model, @AuthenticationPrincipal UserDetails authUser) {
+        User currentUser = appService.findUser(authUser.getUsername());
+        Passport currentUserPassport = appService.findPassportByUser(currentUser);
+        MedicalCard medicalCard = appService.findMedicalCardByUser(currentUser);
+        model.addAttribute("medicalCard", medicalCard);
+        model.addAttribute("currentUserPassport", currentUserPassport);
+        return "card";
     }
 
 }

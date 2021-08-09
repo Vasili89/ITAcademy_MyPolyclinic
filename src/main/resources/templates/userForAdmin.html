@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+    <div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+    <a href="/polyclinic">Home Page</a>
+    <a href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+
+    <div th:replace="/includes/header"></div>
+    <div th:replace="/includes/nav"></div>
+
+    <hr>
+
+    <h3 style="text-align:center">Passport:</h3>
+
+    <br>
+
+    <div class="user-passport" style="display:flex;">
+
+        <div class="fields-names-for-admin" style="width:20%">
+            <h4>First name:</h4>
+            <h4>Last name:</h4>
+            <h4>Father name:</h4>
+            <h4>Date of birth:</h4>
+            <h4>Gender:</h4>
+            <h4>Passport number:</h4>
+            <h4>ID passport number:</h4>
+            <h4>Date of issue:</h4>
+            <h4>Authority:</h4>
+        </div>
+
+        <div class="fields-values-for-admin"  style="width:40%">
+            <h4>[[${userPassport.getFirstName}]]</h4>
+            <h4>[[${userPassport.getLastName}]]</h4>
+            <h4>[[${userPassport.getFathersName}]]</h4>
+            <h4>[[${userPassport.getDateOfBirth}]]</h4>
+            <h4>[[${userPassport.getGender}]]</h4>
+            <h4>[[${userPassport.getNumber}]]</h4>
+            <h4>[[${userPassport.getIdNumber}]]</h4>
+            <h4>[[${userPassport.getDateOfIssue}]]</h4>
+            <h4>[[${userPassport.getAuthority}]]</h4>
+        </div>
+
+        <div class="fields-edit"  style="width:40%">
+            <button style="padding:5px 10px" id="edit-passport-form-button" type="button"> Edit Passport </button>
+            <form id="edit-passport-form" style="display:flex; display:none;">
+                <label for="firstNameEdit" style="display:inline-block; width:40%;">First Name: </label>
+                <input type="text" id="firstNameEdit" th:value="${userPassport.getFirstName}"/>
+                <br>
+                <label for="lastNameEdit" style="display:inline-block; width:40%;">Last Name: </label>
+                <input type="text" id="lastNameEdit" th:value="${userPassport.getLastName}"/>
+                <br>
+                <label for="fathersNameEdit" style="display:inline-block; width:40%;">Fathers Name: </label>
+                <input type="text" id="fathersNameEdit" th:value="${userPassport.getFathersName}"/>
+                <br>
+                <label for="dateOfBirthEdit" style="display:inline-block; width:40%;">Date Of Birth: </label>
+                <input type="date" id="dateOfBirthEdit" th:value="${userPassport.getDateOfBirth}"/>
+                <br>
+                <label for="numberEdit" style="display:inline-block; width:40%;">Passport Number: </label>
+                <input type="text" id="numberEdit" th:value="${userPassport.getNumber}"/>
+                <br>
+                <label for="dateOfIssueEdit" style="display:inline-block; width:40%;">Date Of Issue: </label>
+                <input type="date" id="dateOfIssueEdit" th:value="${userPassport.getDateOfIssue}"/>
+                <br>
+                <label for="authorityEdit" style="display:inline-block; width:40%;">Authority: </label>
+                <input type="text" id="authorityEdit" th:value="${userPassport.getAuthority}"/>
+                <br>
+                <button style="width:50px; padding:5px 10px" id="button-passport-edit-ok" type="button">Edit</button>
+            </form>
+        </div>
+
+    </div>
+    <hr>
+
+    <h3 style="text-align:center">User Information:</h3>
+
+    <div class="user-info" style="display:flex;">
+
+        <div class="user-fields-names-for-admin" style="width:20%">
+            <h4>Id:</h4>
+            <h4>Phone number:</h4>
+            <h4>Role:</h4>
+            <h4>Status:</h4>
+            <h4>Created date:</h4>
+            <h4 th:if="${userPassport.getUser().getRole ==
+            T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">Polyclinic department:</h4>
+            <h4>Google email:</h4>
+        </div>
+
+        <div class="user-fields-values-for-admin"  style="width:40%">
+            <h4>[[${userPassport.user.id}]]</h4>
+            <h4>[[${userPassport.user.phoneNumber}]]</h4>
+            <h4>[[${userPassport.user.role}]]</h4>
+            <h4>[[${userPassport.user.status}]]</h4>
+            <h4>[[${userPassport.user.createdAt}]]</h4>
+            <h4 th:if="${userPassport.getUser().getRole ==
+            T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR && userPassport.user.polyclinicDepartment != null}">
+                [[${userPassport.user.polyclinicDepartment.name}]]</h4>
+            <h4>[[${userPassport.user.googleEmail}]]</h4>
+        </div>
+
+        <div class="fields-edit"  style="width:40%">
+            <button style="padding:5px 10px" id="delete-user-button" type="button"> Delete User </button>
+            <button style="padding:5px 10px" id="edit-user-form-button" type="button"> Edit User </button>
+            <button  th:if="${userPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}"
+                     style="padding:5px 10px" id="edit-department-button" type="button"> Edit department </button>
+            <form id="edit-department-form" style="display:flex; display:none;">
+                <select name="dep" id="department-select" >
+                    <option th:each="dep : ${departments}"
+                            th:value="${dep.id}" th:text="${dep.name}" id="department-list"></option>
+                </select>
+                <button style="padding:5px 10px" id="department-button-ok" type="button"> Edit department </button>
+            </form>
+            <form id="edit-user-form" style="display:flex; display:none;">
+                <label for="phoneNumberEdit" style="display:inline-block; width:40%;">Phone Number: </label>
+                <input type="text" id="phoneNumberEdit" th:value="${userPassport.user.phoneNumber}"/>
+                <br>
+                <label for="googleEmailEdit" style="display:inline-block; width:40%;">Google Email: </label>
+                <input type="email" id="googleEmailEdit" th:value="${userPassport.user.googleEmail}"/>
+                <br>
+                <label for="role" style="display:inline-block; width:40%;">Role: </label>
+                <select name="role" id="role-select" >
+                    <option th:each="role : ${T(by.kostopravov.polyclinic.dto.enums.Role).values()}"
+                            th:value="${role}" th:text="${role}" id="role"></option>
+                </select>
+                <br>
+                <label for="status" style="display:inline-block; width:40%;">Status: </label>
+                <select name="status" id="status-select">
+                    <option th:each="status : ${T(by.kostopravov.polyclinic.dto.enums.Status).values()}"
+                            th:value="${status}" th:text="${status}" id="status"></option>
+                </select>
+                <br>
+                <button style="width:50px; padding:5px 10px" id="button-user-edit-ok" type="button">Edit</button>
+            </form>
+        </div>
+
+    </div>
+
+    <br>
+    <hr>
+    <br>
+    <h3 align="center">Addresses:</h3>
+    <div class="address" style="width:100%; padding:5px; justify-content:center;">
+        <table border="1" style="width:70%">
+            <thead>
+            <tr>
+                <th>City</th>
+                <th>Street</th>
+                <th>House</th>
+                <th>Flat</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${currentUserPassport.getUser().getAddresses().empty}">
+                <td colspan="2"> No Addresses Available </td>
+            </tr>
+            <tr th:each="address : ${userPassport.getUser().getAddresses()}">
+                <td><span th:text="${address.city}"> City </span></td>
+                <td><span th:text="${address.street}"> Street </span></td>
+                <td><span th:text="${address.house}"> House </span></td>
+                <td><span th:text="${address.flat}"> Flat </span></td>
+                <td><button type="button" id="button-address-delete" th:onclick="'deleteAddress('+${address.id}+')'">
+                    Delete </button></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br>
+
+        <div class="address-add"  style="width:40%">
+            <button style="padding:5px 10px" id="add-address-button" type="button"> Add address </button>
+            <form id="add-address-form" style="display:flex; display:none;">
+                <label for="addCity" style="display:inline-block; width:40%;">City: </label>
+                <input type="text" id="addCity"/>
+                <br>
+                <label for="addStreet" style="display:inline-block; width:40%;">Street: </label>
+                <input type="text" id="addStreet"/>
+                <br>
+                <label for="addHouse" style="display:inline-block; width:40%;">House: </label>
+                <input type="text" id="addHouse"/>
+                <br>
+                <label for="addFlat" style="display:inline-block; width:40%;">Flat: </label>
+                <input type="text" id="addFlat"/>
+                <br>
+                <button style="width:50px; padding:5px 10px" id="address-add-button-ok" type="button">Add</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    var passportId = "[[${userPassport.idNumber}]]";
+    var userId = [[${userPassport.user.id}]];
+</script>
+    <script type="text/javascript" th:src="@{/js/edituser.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+</body>
+</html>

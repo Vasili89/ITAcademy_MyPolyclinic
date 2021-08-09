@@ -63,7 +63,7 @@
     <br/>
 
     <div th:unless="${currentUser.getRole == T(by.kostopravov.polyclinic.dto.enums.Role).ADMIN}">
-        <form th:method="GET" th:action="@{/profile/card}">
+        <form th:method="GET" th:action="@{/user/{id}/card(id=${currentUser.getId()})}">
             <input type="submit" value="View my medical card"/>
         </form>
     </div>

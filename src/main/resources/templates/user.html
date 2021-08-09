@@ -4,35 +4,77 @@
     <div th:insert="/includes/head::head"></div>
 
 <body>
-  <p th:text="${findUser.toString()}">VALUE</p>
-  <br>
-  <p th:text="${findUserPassport.toString()}">VALUE</p>
-  <br>
-  <hr>
 
-  <form th:method="GET" th:action="@{/user/{id}(id=${findUser.getId()})}">
-      <input type="submit" value="Edit user"/>
-  </form>
+<div class="top" >
+    <a href="/polyclinic">Home Page</a>
+    <a href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
 
-  <form th:method="GET" th:action="@{/user/{id}/passport(id=${findUser.getId()})}">
-      <input type="submit" value="Edit passport"/>
-  </form>
+<div class="container">
 
-  <div th:if="${currentUser.getRole == T(by.kostopravov.polyclinic.dto.enums.Role).ADMIN}">
-        <form th:method="POST" th:action="@{/user/{id}(id=${findUser.getId()})}">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" value="Delete user"/>
-        </form>
-  </div>
+    <div th:replace="/includes/header"></div>
+    <div th:replace="/includes/nav"></div>
 
-  <div th:if="${currentUser.getRole == T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">
-      <form th:method="GET" th:action="@{/user/{id}/card(id=${findUser.getId()})}">
+    <div class="user-passport">
+
+        <div class="fields-names">
+            <h4>First name:</h4>
+            <h4>Last name:</h4>
+            <h4>Father name:</h4>
+            <h4>Date of birth:</h4>
+            <h4>Gender:</h4>
+            <h4>Passport number:</h4>
+            <h4>ID passport number:</h4>
+            <h4>Date of issue:</h4>
+            <h4>Authority:</h4>
+        </div>
+
+        <div class="fields-values">
+            <h4>[[${userPassport.getFirstName}]]</h4>
+            <h4>[[${userPassport.getLastName}]]</h4>
+            <h4>[[${userPassport.getFathersName}]]</h4>
+            <h4>[[${userPassport.getDateOfBirth}]]</h4>
+            <h4>[[${userPassport.getGender}]]</h4>
+            <h4>[[${userPassport.getNumber}]]</h4>
+            <h4>[[${userPassport.getIdNumber}]]</h4>
+            <h4>[[${userPassport.getDateOfIssue}]]</h4>
+            <h4>[[${userPassport.getAuthority}]]</h4>
+        </div>
+
+    </div>
+
+    <br/>
+    <h4 align="center">Addresses</h4>
+    <div class="address" style="width:100%; padding:5px; display:flex; justify-content:center;">
+        <table border="1" style="width:70%">
+            <thead>
+            <tr>
+                <th>City</th>
+                <th>Street</th>
+                <th>House</th>
+                <th>Flat</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${userPassport.getUser().getAddresses().empty}">
+                <td colspan="2"> No Addresses Available </td>
+            </tr>
+            <tr th:each="address : ${userPassport.getUser().getAddresses()}">
+                <td><span th:text="${address.city}"> City </span></td>
+                <td><span th:text="${address.street}"> Street </span></td>
+                <td><span th:text="${address.house}"> House </span></td>
+                <td><span th:text="${address.flat}"> Flat </span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+  <div th:if="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).DOCTOR}">
+      <form th:method="GET" th:action="@{/user/{id}/card(id=${userPassport.getUser().getId()})}">
           <input type="submit" value="View medical card"/>
       </form>
   </div>
 
-  <form th:method="POST" th:action="@{/logout}">
-      <input type="submit" value="Logout"/>
-  </form>
+</div>
 </body>
 </html>

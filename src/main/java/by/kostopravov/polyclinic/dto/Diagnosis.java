@@ -1,6 +1,7 @@
 package by.kostopravov.polyclinic.dto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,9 +13,11 @@ public class Diagnosis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty
     @Column(name = "name")
     private String name;
 
+    @NotEmpty
     @Column(name = "description")
     private String description;
 
@@ -22,8 +25,12 @@ public class Diagnosis {
     private LocalDateTime dateTime;
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private User doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "medical_card_id")
+    private MedicalCard medicalCard;
 
     public Diagnosis() {
     }
@@ -66,5 +73,13 @@ public class Diagnosis {
 
     public void setDoctor(User doctor) {
         this.doctor = doctor;
+    }
+
+    public MedicalCard getMedicalCard() {
+        return medicalCard;
+    }
+
+    public void setMedicalCard(MedicalCard medicalCard) {
+        this.medicalCard = medicalCard;
     }
 }

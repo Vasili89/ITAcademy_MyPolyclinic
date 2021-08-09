@@ -1,7 +1,7 @@
 package by.kostopravov.polyclinic.dto;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "polyclinic_department", schema = "polyclinic")
@@ -13,10 +13,10 @@ public class PolyclinicDepartment {
     private long id;
 
     @Column(name = "name")
-    private String departmentName;
+    private String name;
 
-    @OneToMany(mappedBy="id")
-    private Set<User> doctors;
+    @OneToMany(mappedBy="polyclinicDepartment")
+    private List<User> doctors;
 
     public PolyclinicDepartment() {
     }
@@ -29,19 +29,19 @@ public class PolyclinicDepartment {
         this.id = id;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getName() {
+        return name;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Set<User> getDoctors() {
+    public List<User> getDoctors() {
         return doctors;
     }
 
-    public void setDoctors(Set<User> doctors) {
+    public void setDoctors(List<User> doctors) {
         this.doctors = doctors;
     }
 }

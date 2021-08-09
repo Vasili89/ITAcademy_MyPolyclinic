@@ -15,15 +15,14 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public Address checkAddress(Address address) {
+    public Address checkAddress(Address newAddress) {
         Address checkAddress = addressRepository.findByCityAndStreetAndHouseAndFlat(
-                address.getCity(), address.getStreet(), address.getHouse(), address.getFlat()).
+                newAddress.getCity(), newAddress.getStreet(), newAddress.getHouse(), newAddress.getFlat()).
                 orElse(null);
         if (checkAddress == null) {
-            addressRepository.save(address);
+            addressRepository.save(newAddress);
+            checkAddress = newAddress;
         }
-        return addressRepository.findByCityAndStreetAndHouseAndFlat(
-                address.getCity(), address.getStreet(), address.getHouse(), address.getFlat()).
-                orElse(null);
+        return checkAddress;
     }
 }

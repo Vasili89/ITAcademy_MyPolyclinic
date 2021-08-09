@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -30,11 +31,12 @@ public class Passport implements Serializable {
     private String fathersName;
 
     @Column(name = "number")
-    @NotEmpty(message = "Passport number is empty")
+    @NotEmpty
     private String number;
 
     @Column(name = "date_of_birth")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate dateOfBirth;
 
     @Column(name = "gender")
@@ -43,14 +45,15 @@ public class Passport implements Serializable {
 
     @Column(name = "date_of_issue")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate dateOfIssue;
 
     @Column(name = "authority")
-    @NotEmpty(message = "Authority is empty")
+    @NotEmpty
     private String authority;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "phone_number", referencedColumnName = "phone_number")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public Passport() {

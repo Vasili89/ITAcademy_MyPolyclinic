@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:insert="/includes/head::head"></div>
+
+<body>
+
+<div class="top" >
+<a href="/polyclinic">Home Page</a>
+<a href="/polyclinic/profile">[[${currentUserPassport.getFullName}]]</a>
+</div>
+
+<div class="container">
+
+    <div th:replace="/includes/header"></div>
+    <div th:replace="/includes/nav"></div>
+
+    <div>
+        <h2> Admin Page </h2>
+    </div>
+
+    <form th:method="POST" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+
+    <hr>
+    <br/>
+
+    <h3 align="center">Polyclinic departments:</h3>
+    <div th:each="department: ${departments}" style="width:100%; display:flex;">
+        <div id="departments-block" style="width:30%">
+        <h4><a th:href="'javascript:showDoctors('+${department.id}+')'">[[${department.name}]]</a></h4>
+        </div>
+        <div id="department-doctors-block">
+
+        </div>
+    </div>
+    <div>
+        <form>
+            <label for="add-new-department" style="display:inline-block;">New department: </label>
+            <input type="text" id="add-new-department"/>
+            <button style="width:100px" type="button" onclick="createDepartment()"> Add </button>
+        </form>
+    </div>
+
+    <hr>
+    <br/>
+
+    <div th:unless="${currentUserPassport.getUser().getRole == T(by.kostopravov.polyclinic.dto.enums.Role).PATIENT}"
+     style="width:100%;">
+        <h3 align="center">Enter user's phone number: </h3>
+        <form style="display: flex; justify-content: center;">
+            <input type="text" id="phoneNumberForFindUser"/>
+            <button style="width:100px" type="button" onclick="showUser()"> find </button>
+        </form>
+    </div>
+
+    <div id="findUser" style="display: flex; justify-content: center; padding:5px;">
+
+    </div>
+
+    <br/>
+    <hr>
+    <br/>
+
+
+
+</div>
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+</body>
+</html>

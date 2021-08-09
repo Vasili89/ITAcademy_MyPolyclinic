@@ -2,6 +2,7 @@ package by.kostopravov.polyclinic.dto;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -14,12 +15,15 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @Column(name = "city")
     private String city;
 
+    @NotEmpty
     @Column(name = "street")
     private String street;
 
+    @NotEmpty
     @Column(name = "house")
     private String house;
 

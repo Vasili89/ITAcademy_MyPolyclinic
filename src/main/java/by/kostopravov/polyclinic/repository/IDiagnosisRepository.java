@@ -1,14 +1,12 @@
 package by.kostopravov.polyclinic.repository;
 
+import by.kostopravov.polyclinic.dto.Diagnosis;
 import by.kostopravov.polyclinic.dto.MedicalCard;
-import by.kostopravov.polyclinic.dto.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface IMedicalCardRepository extends JpaRepository<MedicalCard, Long> {
+public interface IDiagnosisRepository extends JpaRepository<Diagnosis, Long> {
 
-    MedicalCard findByOwner(User user);
-
+    void deleteByMedicalCard(MedicalCard medicalCard);
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
-
 @Repository
 public interface IPassportRepository extends JpaRepository<Passport, String> {
 

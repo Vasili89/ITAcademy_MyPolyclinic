@@ -14,10 +14,10 @@ public class MedicalCard {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "phone_number", referencedColumnName = "phone_number")
+    @JoinColumn(name = "id", referencedColumnName = "user_id")
     private User owner;
 
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy = "medicalCard")
     private List<Diagnosis> diagnosis;
 
     public MedicalCard() {

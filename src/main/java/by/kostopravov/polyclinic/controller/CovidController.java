@@ -19,7 +19,7 @@ import java.util.List;
 public class CovidController {
 
     private final CovidDataService covidService;
-    private AppService appService;
+    private final AppService appService;
 
     @Autowired
     public CovidController(CovidDataService covidService, AppService appService) {
@@ -34,11 +34,12 @@ public class CovidController {
         model.addAttribute("currentUserPassport", currentUserPassport);
 
         List<Location> reportList = covidService.getVirusData();
-        int totalCases = reportList.stream().mapToInt(element -> element.getLastTotalCases()).sum();
-        int dayTotalCases = reportList.stream().mapToInt(element -> element.getDelta()).sum();
+        int totalCases = reportList.stream().mapToInt(Location::getLastTotalCases).sum();
+        int dayTotalCases = reportList.stream().mapToInt(Location::getDelta).sum();
         model.addAttribute("locations", reportList);
         model.addAttribute("totalCases", totalCases);
         model.addAttribute("dayTotalCases", dayTotalCases);
+
         return "covid";
     }
 }

@@ -72,8 +72,9 @@
     </div>
     <div style="clear:both; padding:8px; text-align:right">
     <label for="gender" style="float:left">Sex: </label>
-     <select name="gender">
-       <option th:each="gender : ${T(by.kostopravov.polyclinic.dto.enums.Gender).values()}" th:value="${gender}" th:text="${gender}" id="gender"></option>
+     <select name="gender" id="gender-select">
+       <option th:each="gender : ${T(by.kostopravov.polyclinic.dto.enums.Gender).values()}"
+               th:value="${gender}" th:text="${gender}" id="gender"></option>
      </select>
     </div>
    </div>
@@ -108,5 +109,6 @@
  </div>
 </div>
 
+ <script type="text/javascript" th:src="@{/js/registration.js}"></script>
 </body>
 </html>

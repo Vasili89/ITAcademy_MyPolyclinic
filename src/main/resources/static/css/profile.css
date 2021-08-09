@@ -1,0 +1,33 @@
+.user-passport {
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    padding: 5px;
+    }
+
+.fields-names {
+    width: 20%;
+    margin: 0 auto;
+    text-align: left;
+    }
+
+.fields-values {
+    width: 80%;
+    margin: 0 auto;
+    text-align: left;
+    }
+
+.all-diagnosis {
+    width: 90%;
+    margin: 0 auto;
+    padding: 5px;
+    }
+
+.diagnosis {
+    width: 100%;
+    border: 2px solid lightblue;
+    }
+
+.diagnosis p {
+    padding: 5px 10px;
+    }
